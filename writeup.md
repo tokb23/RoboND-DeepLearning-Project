@@ -24,6 +24,8 @@ The encoder consists of several convolutional layers for extracting useful infor
 
 The decoder consists of several deconvolutional layers or upsampling layers for transforming the downsampled data back to the original resolution for segmentation prediction. Sometimes, in the middle of the decoder, the features from one decoder layer and the ones from one encoder layer are concatenated through the skip connections.
 
+There is a drawback. even though encoder works as feature extraction by reducing spatial information (losing unimportant information), sometimes decoder can struggle to recover this spatial information (back to full resolution). One solution is actually skip connection though!
+
 #### 1×1 Convolution and Fully Connected Layer
 
 1x1 convolution is a convolution which uses a kernel and stride of 1. 1x1 convolution allows the network to be able to retain spatial information from the encoder so it best suits for segmentation task. In contrast, fully connected layer, which is often used at the end of the network to output class prediction in the context of classification task, flattens the input dimensions so it loses spatial information.
@@ -51,6 +53,11 @@ Hyperparameters used for training are manual tuned. For batch size, I often see 
 
 The quad successfully follows the target!
 
-### Limitations
+### Limitations and Future Works
 
 If you want to follow/identify other than human, such as dog or car, you have to collect data for those objects and train a model again from scratch.
+
+Also, I noticed that the model struggles to identify target / human from far away (high false negative rate).
+One future work can be making the model deeper/bigger so that it can give the model power to identify small objects in the scene. On top of that, I can also try transfer learning  (maybe ImageNet pretrained?) for encoder so it can mitigate the effect of lack of a lot of data (underfitting).
+
+And as always, go get more training data!
